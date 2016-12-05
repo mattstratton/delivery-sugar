@@ -57,7 +57,7 @@ module DeliverySugar
     def run_inspec
       prepare_linux_inspec
       shell_out!(
-        "#{cache}/inspec.sh",
+        "#{delivery_workspace_cache}/inspec.sh",
         cwd: @repo_path,
         live_stream: STDOUT
       )
@@ -75,10 +75,10 @@ module DeliverySugar
            ' in delivery-secrets data bag.' if secrets['inspec'].nil?
       # Variables used for the linux inspec script
       ssh_user = secrets['inspec']['ssh-user']
-      ssh_private_key_file = "#{cache}/.ssh/#{secrets['inspec']['ssh-user']}.pem"
+      ssh_private_key_file = "#{delivery_workspace_cache}/.ssh/#{secrets['inspec']['ssh-user']}.pem"
 
       # Create directory for SSH key
-      directory = Chef::Resource::Directory.new("#{cache}/.ssh", run_context)
+      directory = Chef::Resource::Directory.new("#{delivery_workspace_cache}/.ssh", run_context)
       directory.recursive true
       directory.run_action(:create)
 
@@ -91,7 +91,7 @@ module DeliverySugar
       file.run_action(:create)
 
       # Create inspec script
-      file = Chef::Resource::File.new("#{cache}/inspec.sh").tap do |f|
+      file = Chef::Resource::File.new("#{delivery_workspace_cache}/inspec.sh").tap do |f|
         f.content '/opt/chefdk/embedded/bin/inspec ' \
                   "exec #{node['delivery']['workspace']['repo']}/" \
                   'test/recipes/ ' \
