@@ -36,6 +36,40 @@ class Chef
         @action = :test
         @allowed_actions.push(:test)
       end
+
+      #
+      # The fully-qualified path to the directory where the code is on disk
+      #
+      def repo_path(arg = nil)
+        set_or_return(
+          :repo_path,
+          arg,
+          kind_of: String
+        )
+      end
+
+      #
+      # The name of the OS of the infrastruture node
+      #
+      def os(arg = nil)
+        set_or_return(
+          :os,
+          arg,
+          kind_of: String
+        )
+      end
+
+      #
+      # The IP address of the infrastruture node
+      #
+      def infra_node(arg = nil)
+        set_or_return(
+          :infra_node,
+          arg,
+          kind_of: String
+        )
+      end
+
     end
   end
 end
