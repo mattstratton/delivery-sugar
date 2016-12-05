@@ -73,34 +73,34 @@ module DeliverySugar
       secrets = get_project_secrets
       fail 'Could not find secrets for inspec' \
            ' in delivery-secrets data bag.' if secrets['inspec'].nil?
-      # Variables used for the linux inspec script
-      ssh_user = secrets['inspec']['ssh-user']
-      ssh_private_key_file = "#{cache}/.ssh/#{secrets['inspec']['ssh-user']}.pem"
-
-      # Create directory for SSH key
-      directory = Chef::Resource::Directory.new("#{cache}/.ssh", run_context)
-      directory.recursive true
-      directory.run_action(:create)
-
-      # Create private key
-      file = Chef::Resource::File.new(ssh_private_key_file, run_context).tap do |f|
-        f.content secrets['ec2']['private_key']
-        f.sensitive true
-        f.mode '0400'
-      end
-      file.run_action(:create)
-
-      # Create inspec script
-      file = Chef::Resource::File.new("#{cache}/inspec.sh").tap do |f|
-        f.content '/opt/chefdk/embedded/bin/inspec ' \
-                  "exec #{node['delivery']['workspace']['repo']}/" \
-                  'test/recipes/ ' \
-                  "-t ssh://#{ssh_user}@#{infra_node} " \
-                  "-i #{ssh_key_path}"
-        f.sensitive true
-        f.mode '0750'
-      end
-      file.run_action(:create)
+      # # Variables used for the linux inspec script
+      # ssh_user = secrets['inspec']['ssh-user']
+      # ssh_private_key_file = "#{cache}/.ssh/#{secrets['inspec']['ssh-user']}.pem"
+      #
+      # # Create directory for SSH key
+      # directory = Chef::Resource::Directory.new("#{cache}/.ssh", run_context)
+      # directory.recursive true
+      # directory.run_action(:create)
+      #
+      # # Create private key
+      # file = Chef::Resource::File.new(ssh_private_key_file, run_context).tap do |f|
+      #   f.content secrets['ec2']['private_key']
+      #   f.sensitive true
+      #   f.mode '0400'
+      # end
+      # file.run_action(:create)
+      #
+      # # Create inspec script
+      # file = Chef::Resource::File.new("#{cache}/inspec.sh").tap do |f|
+      #   f.content '/opt/chefdk/embedded/bin/inspec ' \
+      #             "exec #{node['delivery']['workspace']['repo']}/" \
+      #             'test/recipes/ ' \
+      #             "-t ssh://#{ssh_user}@#{infra_node} " \
+      #             "-i #{ssh_key_path}"
+      #   f.sensitive true
+      #   f.mode '0750'
+      # end
+      # file.run_action(:create)
     end
   end
 end
