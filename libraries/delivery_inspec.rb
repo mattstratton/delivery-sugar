@@ -84,7 +84,7 @@ module DeliverySugar
 
       # Create private key
       file = Chef::Resource::File.new(ssh_private_key_file, run_context).tap do |f|
-        f.content secrets['ec2']['private_key']
+        f.content secrets['inspec']['private_key']
         f.sensitive true
         f.mode '0400'
       end
@@ -96,7 +96,7 @@ module DeliverySugar
 /opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t ssh://#{ssh_user}@#{@infra_node} -i #{ssh_private_key_file}
         EOF
         f.sensitive true
-        f.mode '0750'
+        # f.mode '0750'
       end
       file.run_action(:create)
     end
