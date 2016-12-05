@@ -95,7 +95,7 @@ module DeliverySugar
         f.content '/opt/chefdk/embedded/bin/inspec ' \
                   "exec #{node['delivery']['workspace']['repo']}/" \
                   'test/recipes/ ' \
-                  "-t ssh://#{ssh_user}@#{infra_node} " \
+                  "-t ssh://#{ssh_user}@#{@infra_node} " \
                   "-i #{ssh_key_path}"
         f.sensitive true
         f.mode '0750'
