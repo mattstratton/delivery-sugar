@@ -85,7 +85,7 @@ module DeliverySugar
 
       # Create private key
       file = Chef::Resource::File.new(ssh_private_key_file, run_context).tap do |f|
-        f.content secrets['inspec']['private_key']
+        f.content secrets['inspec']['ssh-private-key']
         f.sensitive true
         f.mode '0400'
       end
