@@ -37,8 +37,10 @@ module DeliverySugar
     #   The path to the project repository within the workspace
     # @param run_context [Chef::RunContext]
     #   The object that loads and tracks the context of the Chef run
-    # @param yaml [String]
-    #   The name of the Kitchen YAML file
+    # @param os [String]
+    #   The name of the OS of the infrastruture node
+    # @param infra_node [string]
+    #   The IP address of the infrastruture node
     #
     # @return [DeliverySugar::Inspec]
     #
