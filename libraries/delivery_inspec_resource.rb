@@ -29,8 +29,6 @@ class Chef
         @resource_name = :delivery_inspec
         @provider = Chef::Provider::DeliveryInspec
 
-        @os = ''
-        @infra_node = ''
         @repo_path = delivery_workspace_repo
 
         @action = :test

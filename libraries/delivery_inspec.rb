@@ -28,7 +28,7 @@ module DeliverySugar
     include DeliverySugar::DSL
     include Chef::Mixin::ShellOut
     attr_reader :repo_path, :os, :node
-    attr_accessor :run_context, :infra_node
+    attr_accessor :run_context, :infra_node # TODO: infra_node is probably a reader. Also add OS.
 
     #
     # Create a new Inspec object
