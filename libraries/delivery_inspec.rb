@@ -91,12 +91,12 @@ module DeliverySugar
       file.run_action(:create)
 
       # Create inspec script
-      file = Chef::Resource::File.new("#{delivery_workspace_cache}/inspec.sh").tap do |f|
+      file = Chef::Resource::File.new("#{delivery_workspace_cache}/inspec.sh", run_context).tap do |f|
         f.content  <<-EOF
 /opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t ssh://#{ssh_user}@#{@infra_node} -i #{ssh_private_key_file}
         EOF
         f.sensitive true
-        # f.mode '0750'
+        f.mode '0750'
       end
       file.run_action(:create)
     end
