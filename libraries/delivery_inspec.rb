@@ -102,5 +102,10 @@ module DeliverySugar
       end
       file.run_action(:create)
     end
+
+    # Returns the Chef::Node Object coming from the run_context
+    def node
+      run_context && run_context.node
+    end
   end
 end
