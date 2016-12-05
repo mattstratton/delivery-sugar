@@ -96,7 +96,7 @@ module DeliverySugar
                   "exec #{node['delivery']['workspace']['repo']}/" \
                   'test/recipes/ ' \
                   "-t ssh://#{ssh_user}@#{@infra_node} " \
-                  "-i #{ssh_key_path}"
+                  "-i #{ssh_private_key_file}"
         f.sensitive true
         f.mode '0750'
       end
