@@ -48,7 +48,7 @@ module DeliverySugar
       @repo_path = repo_path
       @run_context = run_context
       @os = parameters[:os]
-      @infra_node = parameters[:infra_node]
+      @infra_node = parameters[:infra_node] || ''
     end
 
     #
@@ -76,6 +76,7 @@ module DeliverySugar
       # Variables used for the linux inspec script
       ssh_user = secrets['inspec']['ssh-user']
       ssh_private_key_file = "#{delivery_workspace_cache}/.ssh/#{secrets['inspec']['ssh-user']}.pem"
+      ssh_hostname = @infra_node
 
       # Create directory for SSH key
       directory = Chef::Resource::Directory.new("#{delivery_workspace_cache}/.ssh", run_context)
@@ -93,7 +94,7 @@ module DeliverySugar
       # Create inspec script
       file = Chef::Resource::File.new("#{delivery_workspace_cache}/inspec.sh", run_context).tap do |f|
         f.content  <<-EOF
-/opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t ssh://#{ssh_user}@#{@infra_node} -i #{ssh_private_key_file}
+/opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t ssh://#{ssh_user}@#{ssh_hostname} -i #{ssh_private_key_file}
         EOF
         f.sensitive true
         f.mode '0750'
