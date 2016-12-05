@@ -55,12 +55,21 @@ module DeliverySugar
     # Run inspec action
     #
     def run_inspec
-      prepare_linux_inspec
+      prepare_inspec
       shell_out!(
         "#{delivery_workspace_cache}/inspec.sh",
         cwd: @repo_path,
         live_stream: STDOUT
       )
+    end
+
+    def prepare_inspec
+      case @os
+      when 'linux'
+        prepare_linux_inspec
+      when 'windows'
+        prepare_windows_inspec
+      end
     end
 
     #
@@ -100,6 +109,33 @@ module DeliverySugar
         f.mode '0750'
       end
       file.run_action(:create)
+    end
+
+    #
+    # Create script for Windows nodes
+    #
+    # rubocop:disable AbcSize
+    # rubocop:disable Metrics/MethodLength
+    def prepare_windows_inspec
+      # Load secrets from delivery-secrets data bag
+      secrets = get_project_secrets
+      fail 'Could not find secrets for inspec' \
+           ' in delivery-secrets data bag.' if secrets['inspec'].nil?
+      # Variables used for the Windows inspec script
+      winrm_user = secrets['inspec']['winrm_user']
+      winrm_password = secrets['inspec']['winrm-password']
+      winrm_hostname = @infra_node
+
+      # Create inspec script
+      file = Chef::Resource::File.new("#{delivery_workspace_cache}/inspec.sh", run_context).tap do |f|
+        f.content  <<-EOF
+/opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t winrm://#{winrm_user}@#{winrm_hostname} --password '#{winrm_password}
+        EOF
+        f.sensitive true
+        f.mode '0750'
+      end
+      file.run_action(:create)
+
     end
 
     # Returns the Chef::Node Object coming from the run_context
