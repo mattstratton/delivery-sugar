@@ -43,7 +43,6 @@ module DeliverySugar
     # @return [DeliverySugar::Inspec]
     #
     def initialize(repo_path, run_context, parameters = {})
-      @driver = driver
       @repo_path = repo_path
       @run_context = run_context
       @os = parameters[:os]

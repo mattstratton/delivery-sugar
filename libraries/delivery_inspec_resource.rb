@@ -32,7 +32,7 @@ class Chef
         @os = ''
         @infra_node = ''
         @repo_path = delivery_workspace_repo
-        
+
         @action = :test
         @allowed_actions.push(:test)
       end
