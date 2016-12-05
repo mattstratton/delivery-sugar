@@ -34,9 +34,9 @@ class Chef
 
         @inspec = DeliverySugar::Inspec.new(
           new_resource.repo_path,
-          new_resource.os,
-          new_resource.infra_node,
-          run_context
+          run_context,
+          os: new_resource.os,
+          infra_node: new_resource.infra_node
         )
       end
 
