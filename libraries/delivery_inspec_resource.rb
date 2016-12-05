@@ -64,7 +64,7 @@ class Chef
         set_or_return(
           :infra_node,
           arg,
-          kind_of: String
+          kind_of: String, required: true
         )
       end
 

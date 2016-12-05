@@ -48,7 +48,8 @@ module DeliverySugar
       @repo_path = repo_path
       @run_context = run_context
       @os = parameters[:os]
-      @infra_node = parameters[:infra_node] || ''
+      # @infra_node = parameters[:infra_node]
+      @infra_node = '10.0.0.34'
     end
 
     #
