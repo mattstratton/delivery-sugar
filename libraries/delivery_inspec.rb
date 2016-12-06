@@ -124,7 +124,7 @@ module DeliverySugar
       fail 'Could not find secrets for inspec' \
            ' in delivery-secrets data bag.' if secrets['inspec'].nil?
       # Variables used for the Windows inspec script
-      winrm_user = secrets['inspec']['winrm_user']
+      winrm_user = secrets['inspec']['winrm-user']
       winrm_password = secrets['inspec']['winrm-password']
       winrm_hostname = @infra_node
 
