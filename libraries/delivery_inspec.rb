@@ -69,6 +69,8 @@ module DeliverySugar
         prepare_linux_inspec
       when 'windows'
         prepare_windows_inspec
+      else
+        fail "The operating system '#{@os}' is not supported"
       end
     end
 
@@ -129,7 +131,7 @@ module DeliverySugar
       # Create inspec script
       file = Chef::Resource::File.new("#{delivery_workspace_cache}/inspec.sh", run_context).tap do |f|
         f.content  <<-EOF
-/opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t winrm://#{winrm_user}@#{winrm_hostname} --password '#{winrm_password}
+/opt/chefdk/embedded/bin/inspec exec #{node['delivery']['workspace']['repo']}/test/recipes/ -t winrm://#{winrm_user}@#{winrm_hostname} --password '#{winrm_password}'
         EOF
         f.sensitive true
         f.mode '0750'
